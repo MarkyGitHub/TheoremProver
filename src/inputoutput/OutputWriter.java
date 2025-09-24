@@ -28,7 +28,7 @@ public class OutputWriter {
      */
     public static void displayError(String error) {
         System.err.println();
-        System.err.println("❌ ERROR: " + error);
+        System.err.println("ERROR: " + error);
         System.err.println();
     }
 
@@ -82,7 +82,7 @@ public class OutputWriter {
      */
     public static void displayInfo(String message) {
         System.out.println();
-        System.out.println("ℹ️  INFO: " + message);
+        System.out.println("INFO: " + message);
         System.out.println();
     }
 
@@ -93,7 +93,7 @@ public class OutputWriter {
      */
     public static void displayWarning(String message) {
         System.out.println();
-        System.out.println("⚠️  WARNING: " + message);
+        System.out.println(" WARNING: " + message);
         System.out.println();
     }
 

@@ -32,23 +32,33 @@ if [ "$JAVA_VERSION" -lt 8 ]; then
     exit 1
 fi
 
-# Compile if needed
-if [ ! -f "ProPreTP.class" ]; then
-    echo "Compiling theorem prover..."
-    javac -encoding UTF-8 -d . -cp . src/inputoutput/*.java src/predicate/common/*.java src/predicate/scanner/*.java src/predicate/parser/*.java src/predicate/resolution/*.java src/propositional/scanner/*.java src/propositional/common/*.java src/propositional/parser/*.java src/propositional/resolution/*.java src/propositional/sequent/*.java src/ProPreTP.java
+# Check if JAR file exists, create if needed
+if [ ! -f "theorem-prover.jar" ]; then
+    echo "Creating JAR file for distribution..."
+    echo "Compiling distribution version..."
+    javac -encoding Windows-1252 -d . -cp . ProPreTP_Distribution.java
     
     if [ $? -ne 0 ]; then
         echo "ERROR: Compilation failed"
         exit 1
     fi
-    echo "Compilation successful!"
+    
+    echo "Creating JAR file..."
+    echo "Main-Class: ProPreTP_Distribution" > MANIFEST.MF
+    jar cf theorem-prover.jar MANIFEST.MF *.class
+    
+    if [ $? -ne 0 ]; then
+        echo "ERROR: JAR creation failed"
+        exit 1
+    fi
+    echo "JAR file created successfully!"
     echo ""
 fi
 
-# Run the theorem prover
-echo "Running Theorem Prover..."
+# Run the theorem prover using JAR file
+echo "Running Theorem Prover from JAR file..."
 echo ""
-java ProPreTP
+java -jar theorem-prover.jar
 
 echo ""
 echo "Theorem Prover has ended."

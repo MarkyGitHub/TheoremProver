@@ -18,10 +18,24 @@ A comprehensive guide for creating and distributing runnable versions of the the
 ### Prerequisites
 
 - Java 8 or higher installed
-- All source files present
-- Compilation environment ready
 
-### Fastest Deployment
+### 🎯 **RECOMMENDED: Universal JAR File Deployment**
+
+**The fastest and easiest way to deploy across ALL platforms:**
+
+```bash
+# Download the JAR file
+# Download: theorem-prover.jar (~7KB) - Available from GitHub releases
+
+# Run on ANY platform with Java
+java -jar theorem-prover.jar
+
+# That's it! No compilation, no setup needed.
+```
+
+**✅ Works instantly on Windows, Linux, macOS, and any Java-compatible system**
+
+### Alternative: Platform-Specific Deployment
 
 ```bash
 # Windows
@@ -29,14 +43,28 @@ theorem-prover.bat
 
 # Linux/macOS
 ./theorem-prover.sh
-
-# Cross-platform
-java -jar theorem-prover.jar
 ```
 
 ## 🪟 Windows Deployment
 
-### Option 1: Batch File (Recommended)
+### 🎯 **RECOMMENDED: JAR File (Universal)**
+
+```batch
+@echo off
+title Theorem Prover
+echo Starting Theorem Prover...
+java -jar theorem-prover.jar
+pause
+```
+
+**✅ Advantages:**
+
+- No compilation required
+- Works on any Windows version
+- Single file deployment
+- Cross-platform compatible
+
+### Option 2: Batch File (Alternative)
 
 ```batch
 @echo off
@@ -46,15 +74,15 @@ java -cp . ProPreTP
 pause
 ```
 
-### Option 2: PowerShell Script
+### Option 3: PowerShell Script
 
 ```powershell
 Write-Host "Starting Theorem Prover..." -ForegroundColor Green
-java -cp . ProPreTP
+java -jar theorem-prover.jar
 Read-Host "Press Enter to exit"
 ```
 
-### Option 3: Windows Executable (.exe)
+### Option 4: Windows Executable (.exe)
 
 Use tools like:
 
@@ -75,7 +103,22 @@ REM - Start menu entry
 
 ## 🐧 Linux Deployment
 
-### Option 1: Shell Script (Recommended)
+### 🎯 **RECOMMENDED: JAR File (Universal)**
+
+```bash
+#!/bin/bash
+echo "Starting Theorem Prover..."
+java -jar theorem-prover.jar
+```
+
+**✅ Advantages:**
+
+- No compilation required
+- Works on any Linux distribution
+- Single file deployment
+- Cross-platform compatible
+
+### Option 2: Shell Script (Alternative)
 
 ```bash
 #!/bin/bash
@@ -83,7 +126,7 @@ echo "Starting Theorem Prover..."
 java -cp . ProPreTP
 ```
 
-### Option 2: System Package
+### Option 3: System Package
 
 ```bash
 # Create .deb package for Ubuntu/Debian
@@ -91,7 +134,7 @@ java -cp . ProPreTP
 # Create AppImage for universal Linux distribution
 ```
 
-### Option 3: Snap Package
+### Option 4: Snap Package
 
 ```yaml
 # snapcraft.yaml
@@ -132,7 +175,22 @@ chmod +x theorem-prover.sh
 
 ## 🍎 macOS Deployment
 
-### Option 1: Shell Script
+### 🎯 **RECOMMENDED: JAR File (Universal)**
+
+```bash
+#!/bin/bash
+echo "Starting Theorem Prover..."
+java -jar theorem-prover.jar
+```
+
+**✅ Advantages:**
+
+- No compilation required
+- Works on any macOS version
+- Single file deployment
+- Cross-platform compatible
+
+### Option 2: Shell Script (Alternative)
 
 ```bash
 #!/bin/bash
@@ -140,7 +198,7 @@ echo "Starting Theorem Prover..."
 java -cp . ProPreTP
 ```
 
-### Option 2: macOS Application Bundle
+### Option 3: macOS Application Bundle
 
 ```bash
 # Create .app bundle with:
@@ -149,7 +207,7 @@ java -cp . ProPreTP
 # - Icon and metadata
 ```
 
-### Option 3: Homebrew Package
+### Option 4: Homebrew Package
 
 ```ruby
 # theorem-prover.rb
@@ -185,18 +243,21 @@ chmod +x theorem-prover.sh
 
 ## ☕ Cross-Platform JAR
 
+### 🎯 **PRIMARY DEPLOYMENT METHOD**
+
+**The JAR file is the RECOMMENDED way to deploy the theorem prover across all platforms.**
+
 ### Create Executable JAR
 
 ```bash
-# Compile all classes
-javac -encoding UTF-8 -d . -cp . src/**/*.java
+# Compile distribution version (Unicode-free)
+javac -encoding Windows-1252 -d . ProPreTP_Distribution.java
 
 # Create JAR with manifest
-jar cfm theorem-prover.jar MANIFEST.MF *.class src/
+echo Main-Class: ProPreTP_Distribution > MANIFEST.MF
+jar cfm theorem-prover.jar MANIFEST.MF *.class
 
-# MANIFEST.MF content:
-# Main-Class: ProPreTP
-# Class-Path: .
+# Result: theorem-prover.jar (~7KB)
 ```
 
 ### Run Cross-Platform JAR
@@ -210,7 +271,19 @@ java -jar theorem-prover.jar
 
 # With custom memory settings
 java -Xmx1g -jar theorem-prover.jar
+
+# Any Java-compatible system
+java -jar theorem-prover.jar
 ```
+
+### ✅ **JAR File Advantages**
+
+- **🎯 Universal**: Works on any system with Java 8+
+- **📦 Compact**: Only 7KB download size
+- **🚀 Instant**: No compilation required
+- **🔧 Simple**: Single command to run
+- **🌍 Cross-platform**: Same file works everywhere
+- **📱 Portable**: Easy to distribute and share
 
 ## 🐳 Docker Deployment
 
@@ -297,34 +370,39 @@ theorem-prover-package/
 
 ## 👥 User Instructions
 
-### Windows Users
+### 🎯 **RECOMMENDED: All Users (Cross-Platform)**
 
-1. **Download** `theorem-prover-windows.zip`
-2. **Extract** to desired folder
-3. **Install Java** if not already installed
-4. **Run** `theorem-prover.bat`
-5. **Follow** on-screen instructions
-
-### Linux Users
-
-1. **Download** `theorem-prover-linux.tar.gz`
-2. **Extract** with `tar -xzf theorem-prover-linux.tar.gz`
-3. **Install Java**: `sudo apt-get install openjdk-11-jdk`
-4. **Make executable**: `chmod +x theorem-prover.sh`
-5. **Run**: `./theorem-prover.sh`
-
-### macOS Users
-
-1. **Download** `theorem-prover-macos.dmg`
-2. **Install** by dragging to Applications
-3. **Install Java**: `brew install openjdk@11`
-4. **Run** from Applications or terminal
-
-### Cross-Platform Users
-
-1. **Download** `theorem-prover.jar`
+1. **Download** `theorem-prover.jar` (~7KB) from GitHub releases
 2. **Ensure Java 8+** is installed
 3. **Run**: `java -jar theorem-prover.jar`
+4. **That's it!** Works on Windows, Linux, macOS, and any Java system
+
+### Alternative: Platform-Specific Scripts (for developers)
+
+**Note**: These scripts are only needed if you want to modify the source code.
+
+### Windows Users (Source Development)
+
+1. **Download** the source code from GitHub
+2. **Extract** to desired folder
+3. **Install Java** if not already installed
+4. **Run** `theorem-prover.bat` (creates JAR automatically)
+
+### Linux Users (Source Development)
+
+1. **Download** the source code from GitHub
+2. **Extract** to desired folder
+3. **Install Java**: `sudo apt-get install openjdk-11-jdk`
+4. **Make executable**: `chmod +x theorem-prover.sh`
+5. **Run**: `./theorem-prover.sh` (creates JAR automatically)
+
+### macOS Users (Source Development)
+
+1. **Download** the source code from GitHub
+2. **Extract** to desired folder
+3. **Install Java**: `brew install openjdk@11`
+4. **Make executable**: `chmod +x theorem-prover.sh`
+5. **Run**: `./theorem-prover.sh` (creates JAR automatically)
 
 ## 🔧 Advanced Deployment Options
 
@@ -426,14 +504,23 @@ public class TheoremProverController {
 
 ## 🎉 Deployment Summary
 
+### 🎯 **RECOMMENDED DEPLOYMENT STRATEGY**
+
+**Primary Method: Universal JAR File**
+
+- ✅ **Download**: `theorem-prover.jar` (~7KB)
+- ✅ **Run**: `java -jar theorem-prover.jar`
+- ✅ **Works on**: Windows, Linux, macOS, and any Java system
+- ✅ **Benefits**: No compilation, instant deployment, universal compatibility
+
 The theorem prover can be deployed across **multiple platforms** with:
 
-- ✅ **Windows** - Batch files and native executables
-- ✅ **Linux** - Shell scripts and system packages
-- ✅ **macOS** - Shell scripts and app bundles
-- ✅ **Cross-platform** - Universal JAR files
-- ✅ **Docker** - Containerized deployment
-- ✅ **Cloud** - Web-based deployment
+- 🎯 **Universal JAR** - **RECOMMENDED: Works everywhere instantly**
+- ✅ **Windows** - Batch files and native executables (alternative)
+- ✅ **Linux** - Shell scripts and system packages (alternative)
+- ✅ **macOS** - Shell scripts and app bundles (alternative)
+- ✅ **Docker** - Containerized deployment (alternative)
+- ✅ **Cloud** - Web-based deployment (alternative)
 - 🔄 **Mobile** - Future Android/iOS support
 
-**Choose the deployment method** that best fits your target users and distribution needs! 🚀
+**🎯 Best Practice: Use the JAR file for maximum compatibility and ease of distribution!** 🚀
