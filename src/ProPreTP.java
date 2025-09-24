@@ -1,3 +1,4 @@
+
 import inputoutput.InputReader;
 import inputoutput.OutputWriter;
 import inputoutput.Prompt;
@@ -8,36 +9,87 @@ import java.util.ArrayList;
 import predicate.parser.FreeTermsTable;
 import propositional.scanner.Token;
 
+/**
+ * Main class for the Theorem Prover supporting both propositional and predicate
+ * logic.
+ *
+ * <p>
+ * This class provides an interactive command-line interface for theorem
+ * proving. Users can choose between propositional logic (option A) or predicate
+ * logic (option B) and input logical formulas for validation.</p>
+ *
+ * <p>
+ * Features:
+ * <ul>
+ * <li>Propositional logic theorem proving with resolution and sequent
+ * methods</li>
+ * <li>Predicate logic theorem proving with CNF conversion</li>
+ * <li>Interactive user interface with input validation</li>
+ * <li>Comprehensive error handling and user feedback</li>
+ * </ul></p>
+ *
+ * @author Mark Schlichtmann
+ * @version 1.0
+ * @since 2005
+ */
 public class ProPreTP {
+
     private propositional.sequent.SequentMethod sequent;
     private propositional.resolution.ResolutionMethod resolutionPro;
     private propositional.scanner.Scanner scanPro;
     private propositional.parser.Parser parserPro;
     private String input;
-    /** This class displays a prompt to the user for data input */
+    /**
+     * Prompt handler for user interaction
+     */
     private Prompt prompt;
+    /**
+     * Predicate logic scanner
+     */
     private predicate.scanner.Scanner scanPre;
+    /**
+     * Predicate logic parser
+     */
     private predicate.parser.Parser parserPre;
+    /**
+     * Syntax analyzer for predicate logic
+     */
     private predicate.scanner.SyntaxAnalyser syntax;
+    /**
+     * Resolution method for predicate logic
+     */
     private predicate.resolution.ResolutionMethod resolutionPre;
     /**
-     * A buffered reader is used to read the characters from the console using
-     * InputStreamReader and System.in
+     * Buffered reader for console input
      */
     private BufferedReader buffer;
 
+    /**
+     * Constructs a new Theorem Prover instance. Initializes input handling and
+     * prompt system.
+     */
     public ProPreTP() {
         input = new String("");
         buffer = new BufferedReader(new InputStreamReader(System.in));
         prompt = new Prompt();
     }
 
+    /**
+     * Main execution loop for the theorem prover. Displays welcome message and
+     * handles user input until exit.
+     */
     public void run() {
         prompt.welcome();
         do {
             prompt.prompt();
             try {
-                input = buffer.readLine().trim();
+                String line = buffer.readLine();
+                if (line == null) {
+                    // Handle end of input stream
+                    input = "0";
+                    break;
+                }
+                input = line.trim();
             } catch (IOException ex) {
                 OutputWriter.displayMessage(ex.getMessage().toString());
                 prompt.prompt();
@@ -53,9 +105,14 @@ public class ProPreTP {
                     InputReader ir = new InputReader();
                     String s = ir.getInput();
                     predicateProof(s);
+                } else if (input.compareTo("H") == 0 || input.compareTo("h") == 0) {
+                    // show help
+                    prompt.promptHelp();
+                } else {
+                    OutputWriter.displayError("Please enter A, B, H, or 0 to select an option");
                 }
             } else {
-                OutputWriter.displayError("Please enter A or B to select a proof method");
+                OutputWriter.displayError("Please enter A, B, H, or 0 to select an option");
             }
         } while (input.compareTo("0") != 0);
         if (input.compareTo("0") == 0) {
@@ -64,6 +121,11 @@ public class ProPreTP {
         }
     }
 
+    /**
+     * Handles predicate logic theorem proving.
+     *
+     * @param s the input formula string
+     */
     private void predicateProof(String s) {
         scanPre = new predicate.scanner.Scanner(s);
         ArrayList tokens = scanPre.getScannedTokens();
@@ -75,11 +137,17 @@ public class ProPreTP {
                 predicate.common.WFExpression formula = parserPre.accept();
                 tab = parserPre.getReferenceTable();
                 if (formula != null) {
-                    OutputWriter.displayMessage("");
-                    System.out.println("You have entered the following Predicate logic formula: " + formula);
+                    prompt.displayProcessing("Analyzing predicate logic formula...");
+                    OutputWriter.displaySectionHeader("PREDICATE LOGIC ANALYSIS");
+                    OutputWriter.displayMessage("📝 Formula: " + formula);
+
                     resolutionPre = new predicate.resolution.ResolutionMethod(formula);
                     predicate.resolution.NormalFormAlgorithm nfa = new predicate.resolution.NormalFormAlgorithm(formula, tab);
-                    System.out.println("The conjunctive normal form of this predicate sentence: " + nfa.getNormalForm());
+
+                    OutputWriter.displayMessage("🔧 CNF Conversion:");
+                    OutputWriter.displayMessage("   " + nfa.getNormalForm());
+
+                    OutputWriter.displayInfo("Predicate logic analysis completed. Note: Full theorem proving for predicate logic is currently in development.");
                     /*
                      * if(resolutionPre.resolve()){ System.out.println("This
                      * Predicate logic sentence is valid!"); } else{
@@ -97,6 +165,11 @@ public class ProPreTP {
         }
     }
 
+    /**
+     * Handles propositional logic theorem proving.
+     *
+     * @param s the input formula string
+     */
     private void propositionalProof(String s) {
         scanPro = new propositional.scanner.Scanner(s);
         ArrayList<Token> tokens = scanPro.getTokens();
@@ -104,16 +177,23 @@ public class ProPreTP {
             parserPro = new propositional.parser.Parser(tokens);
             propositional.common.Formula formula = parserPro.parse();
             if (formula != null) {
-                OutputWriter.displayMessage("");
-                System.out.println("You have entered the following Propositional formula: " + formula);
+                prompt.displayProcessing("Analyzing propositional logic formula...");
+                OutputWriter.displaySectionHeader("PROPOSITIONAL LOGIC ANALYSIS");
+                OutputWriter.displayMessage("📝 Formula: " + formula);
+
                 resolutionPro = new propositional.resolution.ResolutionMethod(formula);
-                if (resolutionPro.resolve()) {
-                    System.out.println("This Propositional sentence is valid!");
+                boolean isTheorem = resolutionPro.resolve();
+
+                prompt.displayTheoremResult(isTheorem, formula.toString());
+
+                if (isTheorem) {
+                    OutputWriter.displaySuccess("The formula is a valid theorem!");
                 } else {
-                    System.out.println("This is not a valid Propositional sentence.");
+                    OutputWriter.displayWarning("The formula is not a theorem.");
                 }
-                System.out.println("");
-                System.out.println("Constructing proof sequence with sequent method.......");
+
+                OutputWriter.displayMessage("");
+                OutputWriter.displayMessage("🔍 Constructing proof sequence with sequent method...");
                 sequent = new propositional.sequent.SequentMethod(formula);
                 sequent.searchSequent();
                 sequent.display();
@@ -125,6 +205,11 @@ public class ProPreTP {
         }
     }
 
+    /**
+     * Main entry point for the theorem prover application.
+     *
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         ProPreTP protp = new ProPreTP();
         protp.run();

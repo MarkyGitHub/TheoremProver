@@ -10,36 +10,55 @@ import propositional.common.Unary;
 import propositional.scanner.Scanner;
 import propositional.scanner.Token;
 
-/* <p>Title:Propositional Theorem Prover</p>
- * <p>Description: A theorem prover for propositional logic.</p>
- * <p>Copyright: Copyright (c) 2005</p>
- * <p>Department: Computer Science</p>
+/**
+ * Parser for propositional logic formulas.
+ *
+ * <p>
+ * This class parses a sequence of input tokens into a propositional logic
+ * formula using a recursive descent parsing algorithm. It handles operator
+ * precedence and generates an abstract syntax tree representation of the input
+ * formula.</p>
+ *
+ * <p>
+ * Features:
+ * <ul>
+ * <li>Recursive descent parsing with operator precedence</li>
+ * <li>Support for all propositional logic connectives</li>
+ * <li>Proper handling of parentheses and operator precedence</li>
+ * <li>Generation of abstract syntax trees</li>
+ * </ul></p>
+ *
  * @author Mark Schlichtmann
- * @version 1.0*/
-/*******************************************************************************
- * The Parser is used to parse a sequence of input tokens into a propositional
- * logic formula.
- ******************************************************************************/
+ * @version 1.0
+ * @since 2005
+ */
 public class Parser {
-    /** The iterator is used to iterate the sequence of tokens* */
+
+    /**
+     * Iterator for traversing the sequence of tokens
+     */
     private Iterator it;
-    /***************************************************************************
-     * This is the abstract formula created by the parser and returned as output
-     * by the parser
-     **************************************************************************/
+    /**
+     * The abstract formula created by the parser
+     */
     private Formula syntax;
-    /** The sequence of input tokens for parsing* */
+    /**
+     * The sequence of input tokens for parsing
+     */
     private ArrayList<Token> tokens;
-    /** A stack is used to parse all propositional symbols* */
+    /**
+     * Stack for parsing propositional symbols
+     */
     private FormulaStack formulas;
-    /** Another stack is used to parse all the logical symbols* */
+    /**
+     * Stack for parsing logical connectives
+     */
     private ConnectiveStack operators;
 
     /**
-     * Initialisation of the istance variables
-     * 
-     * @param inputTokens
-     *            ArrayList is the sequence of tokens to be parsed
+     * Constructs a parser with the given sequence of tokens.
+     *
+     * @param inputTokens the sequence of tokens to be parsed
      */
     public Parser(ArrayList<Token> inputTokens) {
         syntax = null;
@@ -52,15 +71,15 @@ public class Parser {
     /**
      * This method reduces the parsed formulas and connectives and creates the
      * final abstract formula for output
-     * 
+     *
      * @return boolean: true if this method is successfull, false indicates an
-     *         incorrect input syntax
+     * incorrect input syntax
      */
     private boolean reduce() {
         while (!operators.isEmpty()) {
             Token op = operators.popOp();
             if (op.isUnary()) {
-                if (tokens.isEmpty()) {
+                if (formulas.isEmpty()) {
                     System.out.println("Error in syntax - 1");
                     return false;
                 }
@@ -91,7 +110,7 @@ public class Parser {
     /**
      * The main accept method in this parser, it accepts the series of tokens in
      * a while loop one after the other
-     * 
+     *
      * @return Formula is the parsed abstract formula
      */
     private Formula accept() {
@@ -101,16 +120,13 @@ public class Parser {
             // accept token if token is left-parenthesis
             if (t.getData().compareTo("(") == 0) {
                 operators.pushOp(t);
-            }
-            // accept token if token is predicate
+            } // accept token if token is predicate
             else if (t.isPredicate()) {
                 this.formulas.pushFormula(new Propositional(t));
-            }
-            // accept tokenif token is connective accept connective
+            } // accept tokenif token is connective accept connective
             else if (t.isConnective()) {
                 operators.pushOp(t);
-            }
-            // accept sub-expression if token is right-parenthesis
+            } // accept sub-expression if token is right-parenthesis
             else if (t.getData().compareTo(")") == 0) {
                 if (!acceptFormula()) {
                     noError = false;
@@ -120,10 +136,12 @@ public class Parser {
                 return syntax;
             }
         }
-        /***********************************************************************
+        /**
+         * *********************************************************************
          * Reduce all items in the stacks and return the abstract formula if
          * there are no errors in the parsing
-         **********************************************************************/
+         * ********************************************************************
+         */
         if (noError) {
             if (reduce()) {
                 syntax = formulas.popFormula();
@@ -136,9 +154,9 @@ public class Parser {
      * This method accepts a sub-expression whenever the right parenthesis is
      * parsed. This helps to parse the preceding tokens in the stack upto this
      * enclosing bracket.
-     * 
+     *
      * @return boolean is true when there is no error in the syntax, false
-     *         otherwise
+     * otherwise
      */
     private boolean acceptFormula() {
         Token op = operators.peekOp();
@@ -174,7 +192,7 @@ public class Parser {
     /**
      * This method parses the input tokens into an abstract formula by calling
      * the method accept
-     * 
+     *
      * @return Formula is the abstract formula parsed by this class
      */
     public Formula parse() {

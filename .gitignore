@@ -28,6 +28,9 @@ hs_err_pid*
 *.iml
 *.ipr
 *.iws
+.settings/
+.project
+.classpath
 
 # OS files
 .DS_Store
