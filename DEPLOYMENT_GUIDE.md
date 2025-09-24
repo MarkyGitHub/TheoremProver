@@ -377,33 +377,6 @@ theorem-prover-package/
 3. **Run**: `java -jar theorem-prover.jar`
 4. **That's it!** Works on Windows, Linux, macOS, and any Java system
 
-### Alternative: Platform-Specific Scripts (for developers)
-
-**Note**: These scripts are only needed if you want to modify the source code.
-
-### Windows Users (Source Development)
-
-1. **Download** the source code from GitHub
-2. **Extract** to desired folder
-3. **Install Java** if not already installed
-4. **Run** `theorem-prover.bat` (creates JAR automatically)
-
-### Linux Users (Source Development)
-
-1. **Download** the source code from GitHub
-2. **Extract** to desired folder
-3. **Install Java**: `sudo apt-get install openjdk-11-jdk`
-4. **Make executable**: `chmod +x theorem-prover.sh`
-5. **Run**: `./theorem-prover.sh` (creates JAR automatically)
-
-### macOS Users (Source Development)
-
-1. **Download** the source code from GitHub
-2. **Extract** to desired folder
-3. **Install Java**: `brew install openjdk@11`
-4. **Make executable**: `chmod +x theorem-prover.sh`
-5. **Run**: `./theorem-prover.sh` (creates JAR automatically)
-
 ## 🔧 Advanced Deployment Options
 
 ### Native Image (GraalVM)

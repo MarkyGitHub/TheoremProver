@@ -73,35 +73,6 @@ java -jar theorem-prover.jar
 4. Start proving theorems!
 ```
 
-### **Alternative: Platform-Specific Scripts (for developers)**
-
-### **Windows Users (Source Development)**
-
-```batch
-1. Download source code from GitHub
-2. Extract to folder
-3. Double-click theorem-prover.bat
-4. Start proving theorems!
-```
-
-### **Linux Users (Source Development)**
-
-```bash
-1. Download source code from GitHub
-2. Extract to folder
-3. chmod +x theorem-prover.sh
-4. ./theorem-prover.sh
-```
-
-### **macOS Users (Source Development)**
-
-```bash
-1. Download source code from GitHub
-2. Extract to folder
-3. chmod +x theorem-prover.sh
-4. ./theorem-prover.sh
-```
-
 ## 🔧 **Technical Features**
 
 ### **Compatibility**
@@ -149,7 +120,6 @@ theorem-prover-distribution/
 ### **GitHub Releases**
 
 - ✅ **🎯 theorem-prover.jar** - **RECOMMENDED: Universal Java application (works everywhere)**
-- ✅ **Source Code** - For developers who want to modify the code (alternative)
 - ✅ **Docker Image** - Containerized version (alternative)
 
 ### **Package Managers**
@@ -181,13 +151,6 @@ theorem-prover-distribution/
 - ✅ **Comprehensive documentation** for all users
 - ✅ **Multiple deployment options** for different needs
 - ✅ **Easy installation** and setup
-
-### **3. Developer-Friendly**
-
-- ✅ **Source code included** in all packages
-- ✅ **Easy to customize** and extend
-- ✅ **Comprehensive testing** framework
-- ✅ **Clear documentation** for developers
 
 ### **4. Production-Ready**
 

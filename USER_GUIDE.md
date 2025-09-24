@@ -39,32 +39,6 @@ The Theorem Prover is a tool that can automatically verify whether logical formu
 3. **Run**: `java -jar theorem-prover.jar`
 4. **That's it!** Works on Windows, Linux, macOS, and any Java system
 
-### Alternative: Source Code (for developers only)
-
-**Note**: Only needed if you want to modify the source code.
-
-### Windows (Source Development)
-
-1. Download source code from GitHub
-2. Extract to a folder (e.g., `C:\TheoremProver\`)
-3. Double-click `theorem-prover.bat`
-4. If Java is not installed, download from [Oracle](https://www.oracle.com/java/technologies/downloads/)
-
-### Linux (Source Development)
-
-1. Download source code from GitHub
-2. Extract to desired folder
-3. Install Java: `sudo apt-get install openjdk-11-jdk`
-4. Make executable: `chmod +x theorem-prover.sh`
-5. Run: `./theorem-prover.sh`
-
-### macOS (Source Development)
-
-1. Download source code from GitHub
-2. Install Java: `brew install openjdk@11`
-3. Make executable: `chmod +x theorem-prover.sh`
-4. Run: `./theorem-prover.sh`
-
 ## 🎯 Basic Usage
 
 ### Starting the Program
